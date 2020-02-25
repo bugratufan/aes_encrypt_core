@@ -17,4 +17,4 @@ view wave
 view structure
 view signals
 do wave.do
-run 20ns
+run 200ns

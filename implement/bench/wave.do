@@ -11,6 +11,7 @@ add wave -noupdate -expand -group CORE /tb_aes_core/DUT/tmp_data
 add wave -noupdate -expand -group CORE /tb_aes_core/DUT/core_state
 add wave -noupdate -expand -group CORE /tb_aes_core/DUT/clk
 add wave -noupdate -expand -group CORE /tb_aes_core/DUT/reset_n
+add wave -noupdate -expand -group CORE /tb_aes_core/DUT/valid_out
 add wave -noupdate -expand -group {SBOX BLOCK} /tb_aes_core/DUT/sb_data_in
 add wave -noupdate -expand -group {SBOX BLOCK} /tb_aes_core/DUT/sb_data_out
 add wave -noupdate -group {SHIFT ROW} -expand /tb_aes_core/DUT/sr_data_in

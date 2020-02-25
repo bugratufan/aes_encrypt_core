@@ -11,7 +11,8 @@ entity aes_core is
     clk       : in std_logic;
     data_in   : in std_logic_vector(127 downto 0);
     data_out   : out std_logic_vector(127 downto 0);
-    reset_n    : in std_logic
+    reset_n    : in std_logic;
+    valid_out  : out std_logic
   );
 end entity;
 
@@ -125,6 +126,7 @@ begin
     if reset_n = '0' then
       core_state <= startState;
       crk_round_count <= "00000000";
+      valid_out <= '0';
     elsif(clk'event and clk = '1') then
       case( core_state ) is
         when startState =>
@@ -133,26 +135,42 @@ begin
           crk_round_count <= "00000001";
           crk_cipher_block <= aes_core_cipher;
           core_state <= initState;
+          valid_out <= '0';
         when initState =>
-          ark_data_in <= ark_data_out;
-          ark_cipher_block <= crk_out_block;
-          crk_cipher_block <= crk_out_block;
-          crk_round_count <= crk_round_count sll 1;
-          tmp_data <= ark_data_out;
-          core_state <= roundState;
-        when roundState  =>
           ark_data_in <= mc_data_out;
           ark_cipher_block <= crk_out_block;
           crk_cipher_block <= crk_out_block;
-          crk_round_count <= crk_round_count sll 1;
           tmp_data <= ark_data_out;
           core_state <= roundState;
+          crk_round_count <= crk_round_count sll 1;
+        when roundState  =>
+          if(crk_round_count = X"36") then
+            ark_data_in <= sr_data_out;
+          else
+            ark_data_in <= mc_data_out;
+          end if;
+          ark_cipher_block <= crk_out_block;
+          crk_cipher_block <= crk_out_block;
+          if(crk_round_count = X"80") then
+            crk_round_count <= X"1b";
+          else
+            crk_round_count <= crk_round_count sll 1;
+          end if;
+          tmp_data <= ark_data_out;
+          core_state <= roundState;
+          if(crk_round_count = X"6c") then
+            valid_out <= '1';
+            core_state <= endState;
+          end if;
+        when endState =>
+          valid_out <= '0';
+          core_state <= startState;
         when others =>
       end case;
     end if;
   end process;
 
-  sb_data_in <= tmp_data;
+  sb_data_in <= ark_data_out;
   sr_data_in <= sb_data_out;
   mc_data_in <= sr_data_out;
 

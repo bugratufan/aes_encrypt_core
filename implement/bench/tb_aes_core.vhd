@@ -13,7 +13,8 @@ architecture bench of tb_aes_core is
       clk       : in std_logic;
       data_in   : in std_logic_vector(127 downto 0);
       data_out  : out std_logic_vector(127 downto 0);
-      reset_n   : in std_logic
+      reset_n   : in std_logic;
+      valid_out  : out std_logic
     );
   end component;
 
@@ -21,12 +22,14 @@ architecture bench of tb_aes_core is
   signal reset_n   : std_logic;
   signal data_in   : std_logic_vector(127 downto 0);
   signal data_out  : std_logic_vector(127 downto 0);
+  signal valid_out : std_logic;
 begin
   DUT: aes_core port map(
     clk => clk,
     data_in => data_in,
     data_out => data_out,
-    reset_n => reset_n
+    reset_n => reset_n,
+    valid_out => valid_out
   );
 
 
