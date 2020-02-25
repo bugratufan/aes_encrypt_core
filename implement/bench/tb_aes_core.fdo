@@ -1,0 +1,20 @@
+vlib work
+
+vcom -explicit  -2008 -work work "../rtl/aes_pkg.vhd"
+vcom -explicit  -2008 -work work "../rtl/sbox.vhd"
+vcom -explicit  -2008 -work work "../rtl/sbox_block.vhd"
+vcom -explicit  -2008 -work work "../rtl/mix_column.vhd"
+vcom -explicit  -2008 -work work "../rtl/mix_column_block.vhd"
+vcom -explicit  -2008 -work work "../rtl/shift_rows.vhd"
+vcom -explicit  -2008 -work work "../rtl/create_round_key.vhd"
+vcom -explicit  -2008 -work work "../rtl/add_round_key.vhd"
+vcom -explicit  -2008 -work work "../rtl/aes_core.vhd"
+vcom -explicit  -2008 -work work "tb_aes_core.vhd"
+
+vsim -t 10ps -novopt -lib work tb_aes_core
+
+view wave
+view structure
+view signals
+do wave.do
+run 20ns
