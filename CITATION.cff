@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Tufan"
+  given-names: "Buğra"
+  orcid: "https://orcid.org/0000-0002-4777-9854"
+title: "VHDL implementation of a 128-bit AES Encryption Core"
+version: 1.0
+date-released: 2022-02-25
+url: "https://github.com/bugratufan/aes_encrypt_core"
